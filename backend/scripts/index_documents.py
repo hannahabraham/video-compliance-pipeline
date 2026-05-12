@@ -35,7 +35,7 @@ def index_docs():
     logger.info(f"AZURE_OPENAI_ENDPOINT: {os.getenv('AZURE_OPENAI_ENDPOINT')}")
     logger.info(f"AZURE_OPENAI_API_VERSION: {os.getenv('AZURE_OPENAI_API_VERSION')}")
     logger.info(f"Embedding Deployment: {os.getenv('AZURE_OPENAI_EMBEDDING_DEPLOYMENT', 
-                                                   'text-embedding-3-small')}")
+                                                   'text-embedding-ada-002')}")
     logger.info(f"AZURE_SEARCH_ENDPOINT: {os.getenv('AZURE_SEARCH_ENDPOINT')}")
     logger.info(f"AZURE_SEARCH_INDEX_NAME: {os.getenv('AZURE_SEARCH_INDEX_NAME')}")
     logger.info("=" * 60)
@@ -57,11 +57,11 @@ def index_docs():
     
     # 5. Initialize Embedding Model (The "Translator")
     # This turns text into numbers (vectors).
-    # MUST match the model you deployed in Azure AI Foundry ("text-embedding-3-small")
+    # MUST match the model you deployed in Azure AI Foundry ("text-embedding-ada-002")
     try:
         logger.info("Initializing Azure OpenAI Embeddings...")
         embeddings = AzureOpenAIEmbeddings(
-            azure_deployment=os.getenv("AZURE_OPENAI_EMBEDDING_DEPLOYMENT", "text-embedding-3-small"),
+            azure_deployment=os.getenv("AZURE_OPENAI_EMBEDDING_DEPLOYMENT", "text-embedding-ada-002"),
             azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
             api_key=os.getenv("AZURE_OPENAI_API_KEY"),
             openai_api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-01"),
@@ -131,7 +131,7 @@ def index_docs():
             # Azure Search accepts batches automatically via this method
             vector_store.add_documents(documents=all_splits)
             logger.info("=" * 60)
-            logger.info("✅ Indexing Complete! The Knowledge Base is ready.")
+            logger.info("Indexing Complete! The Knowledge Base is ready.")
             logger.info(f"Total chunks indexed: {len(all_splits)}")
             logger.info("=" * 60)
         except Exception as e:
